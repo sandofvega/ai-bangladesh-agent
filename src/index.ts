@@ -1,18 +1,14 @@
-import { Hono } from 'hono';
 import { serve } from '@hono/node-server';
 import { createServer, getServerPort } from '@devvit/web/server';
-import { api } from './routes/api.js';
+import { Hono } from 'hono';
+import { externalPostRoutes } from './routes/external-post.js';
 
-// Root app for all HTTP endpoints served by the Devvit Web server bundle.
 const app = new Hono();
-// Internal sub-router groups Devvit internal endpoints (menu/forms/triggers/etc).
-const internal = new Hono();
 
-// Mount public API router (template placeholder).
-app.route('/api', api);
-app.route('/internal', internal);
+// This route is reachable only through a Devvit-managed external endpoint.
+// Devvit checks the managed app token before this handler is invoked.
+app.route('/external', externalPostRoutes);
 
-// Start Node server with Devvit-provided server factory and assigned port.
 serve({
   fetch: app.fetch,
   createServer,

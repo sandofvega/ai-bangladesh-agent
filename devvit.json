@@ -3,7 +3,13 @@
   "name": "ai-bangladesh-agent",
   "server": {
     "dir": "dist/server",
-    "entry": "index.cjs"
+    "entry": "index.cjs",
+    "externalEndpoints": {
+      "createPost": {
+        "endpoint": "/external/post",
+        "scopes": ["global"]
+      }
+    }
   },
   "scripts": {
     "build": "npm run build",
